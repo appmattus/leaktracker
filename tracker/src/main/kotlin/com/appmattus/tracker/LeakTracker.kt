@@ -74,10 +74,6 @@ class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
     private inner class TrackedReference(val uuid: UUID, referent: Unsubscriber, val operation: () -> Unit) :
             WeakReference<Any>(referent, referenceQueue)
 
-    /**
-     * Reaper thread that will execute the TrackedReference.operation() when the associated referent object is
-     * reclaimed by the garbage collector.
-     */
     @Suppress("TooGenericExceptionCaught", "EmptyCatchBlock")
     private fun startReaperThread() {
         // This thread must be a daemon thread otherwise it will stop the app finishing
@@ -85,10 +81,12 @@ class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
             while (true) {
                 try {
                     // Once a referent is to be GC'd then the Tracker will be available in the referenceQueue
+                    @Suppress("UnsafeCast")
                     (referenceQueue.remove() as TrackedReference).apply {
                         // Clear the tracker
                         trackers.remove(uuid)
-                        // and execute the operation
+                        // Execute the operation when the associated referent object is reclaimed by the garbage
+                        // collector
                         operation()
                     }
                 } catch (ignored: InterruptedException) {

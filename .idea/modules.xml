@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/leaktracker.iml" filepath="$PROJECT_DIR$/leaktracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/tracker.iml" group="tracker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/tracker_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/tracker_main.iml" group="tracker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/tracker_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/tracker_test.iml" group="tracker" />
+    </modules>
+  </component>
+</project>

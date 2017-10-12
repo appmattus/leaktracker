@@ -30,8 +30,16 @@ kotlin {
 
 detekt {
     profile("main") {
+        //noinspection GroovyAssignabilityCheck
         input = "$projectDir/src/main/kotlin"
         filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    }
+}
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "short"
     }
 }
 
