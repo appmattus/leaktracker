@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/appmattus/leaktracker.svg?branch=master)](https://travis-ci.org/appmattus/leaktracker)
+[![Build Status](https://travis-ci.org/appmattus/leaktracker.svg?branch=master)](https://travis-ci.org/appmattus/leaktracker) [![Coverage Status](https://coveralls.io/repos/github/appmattus/leaktracker/badge.svg?branch=master)](https://coveralls.io/github/appmattus/leaktracker?branch=master)
 
 # leaktracker
 A memory leak tracking library for Android and Java.
