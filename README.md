@@ -1,5 +1,41 @@
+[![Build Status](https://travis-ci.org/appmattus/leaktracker.svg?branch=master)](https://travis-ci.org/appmattus/leaktracker)
+
 # leaktracker
 A memory leak tracking library for Android and Java.
+
+If you are developing an API where your clients must bind and unbind with their observers, then wouldn’t it be better if
+you could reduce the chance of misuse?
+
+LeakTracker helps detect when your observers aren't unbound properly.
+
+## Getting started
+
+Somewhere in your code store a reference to the tracker. 
+[Dependency injection](https://en.wikipedia.org/wiki/Dependency_injection) such as
+[Dagger](https://google.github.io/dagger/) is recommended to inject this instance where it is needed.
+
+```kotlin
+val tracker = LeakTracker { exception ->
+    // Log the exception as you wish
+    Log.e(LOG_TAG, "Subscription leaked", exception)
+}
+```
+
+Then in your APIs addObserver/bind/subscribe method use the `tracker.subscribe` function to return an Unsubscriber.
+
+```kotlin
+@CheckResult
+fun addObserver(observer: Observer): Unsubscriber {
+    // save your observer here
+    
+    return tracker.subscribe {
+        // remove your observer here
+    }
+}
+```
+
+LeakTracker will automatically call your exception handler when an `Unsubscriber` is garbage collected without being
+called.
 
 
 ## License
