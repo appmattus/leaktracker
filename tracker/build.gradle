@@ -58,6 +58,7 @@ jacocoTestReport {
 }
 
 coveralls {
+    sourceDirs = sourceSets.main.allSource.srcDirs.flatten().asList()
     jacocoReportPath = "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
 }
 
