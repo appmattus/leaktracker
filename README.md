@@ -1,6 +1,5 @@
-[![Build Status](https://travis-ci.org/appmattus/leaktracker.svg?branch=master)](https://travis-ci.org/appmattus/leaktracker) [![Coverage Status](https://coveralls.io/repos/github/appmattus/leaktracker/badge.svg?branch=master)](https://coveralls.io/github/appmattus/leaktracker?branch=master)
+# leaktracker [![Build Status](https://travis-ci.org/appmattus/leaktracker.svg?branch=master)](https://travis-ci.org/appmattus/leaktracker) [![Coverage Status](https://coveralls.io/repos/github/appmattus/leaktracker/badge.svg?branch=master)](https://coveralls.io/github/appmattus/leaktracker?branch=master)
 
-# leaktracker
 A memory leak tracking library for Android and Java.
 
 If you are developing an API where your clients must bind and unbind with their observers, then wouldn’t it be better if
@@ -10,7 +9,7 @@ LeakTracker helps detect when your observers aren't unbound properly.
 
 ## Getting started
 
-Somewhere in your code store a reference to the tracker. 
+Somewhere in your code store a reference to the tracker.
 [Dependency injection](https://en.wikipedia.org/wiki/Dependency_injection) such as
 [Dagger](https://google.github.io/dagger/) is recommended to inject this instance where it is needed.
 
@@ -27,7 +26,7 @@ Then in your APIs addObserver/bind/subscribe method use the `tracker.subscribe` 
 @CheckResult
 fun addObserver(observer: Observer): Unsubscriber {
     // save your observer here
-    
+
     return tracker.subscribe {
         // remove your observer here
     }
@@ -37,8 +36,15 @@ fun addObserver(observer: Observer): Unsubscriber {
 LeakTracker will automatically call your exception handler when an `Unsubscriber` is garbage collected without being
 called.
 
+## Download [![Download](https://api.bintray.com/packages/appmattus/maven/leaktracker/images/download.svg) ](https://bintray.com/appmattus/maven/leaktracker/_latestVersion)
 
-## License
+```groovy
+dependencies {
+    compile 'com.appmattus:leaktracker:<latest-version>'
+}
+```
+
+## License [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 Copyright 2017 Appmattus Limited
 
