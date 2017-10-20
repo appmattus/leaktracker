@@ -44,6 +44,11 @@ dependencies {
 }
 ```
 
+## Contributing
+Please fork this repository and contribute back using [pull requests][pr].
+
+All contributions, large or small, major features, bug fixes, additional language translations, unit/integration tests are welcomed.
+
 ## License [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 Copyright 2017 Appmattus Limited
