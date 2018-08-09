@@ -5,18 +5,20 @@ apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'com.novoda.bintray-release'
 
 buildscript {
+    ext.detekt_version = '1.0.0.RC6'
+
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.0.0.RC4-3"
+        classpath "gradle.plugin.io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detekt_version"
     }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.18"
-    compileOnly "com.android.support:support-annotations:26.1.0"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0"
+    compileOnly "com.android.support:support-annotations:27.1.1"
 
     testCompile "junit:junit:4.12"
 }
@@ -31,6 +33,7 @@ kotlin {
 }
 
 detekt {
+    version = "$detekt_version"
     profile("main") {
         //noinspection GroovyAssignabilityCheck
         input = "$projectDir/src/main/kotlin"
