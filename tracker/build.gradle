@@ -17,7 +17,7 @@ buildscript {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0"
     compileOnly "com.android.support:support-annotations:27.1.1"
 
     testCompile "junit:junit:4.12"
@@ -25,12 +25,6 @@ dependencies {
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
-
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
 
 detekt {
     version = "$detekt_version"
