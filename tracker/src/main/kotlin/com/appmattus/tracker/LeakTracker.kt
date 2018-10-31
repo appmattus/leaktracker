@@ -17,12 +17,14 @@
 package com.appmattus.tracker
 
 import android.support.annotation.CheckResult
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.newSingleThreadContext
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.launch
 import java.lang.ref.ReferenceQueue
 import java.lang.ref.WeakReference
 import java.util.Collections
 import java.util.UUID
+import java.util.concurrent.Executors
 
 /**
  * Notifies you when the referent object is garbage collected
@@ -77,7 +79,7 @@ class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
     @Suppress("TooGenericExceptionCaught", "EmptyCatchBlock")
     private fun startReaperThread() {
         // This thread must be a daemon thread otherwise it will stop the app finishing
-        launch(newSingleThreadContext("Reaper Thread")) {
+        GlobalScope.launch(Executors.newSingleThreadExecutor().asCoroutineDispatcher()) {
             while (true) {
                 try {
                     // Once a referent is to be GC'd then the Tracker will be available in the referenceQueue
