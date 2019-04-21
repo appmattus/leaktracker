@@ -14,7 +14,7 @@ plugins {
 dependencies {
     implementation(kotlin("stdlib-jdk7"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0")
-    compileOnly("com.android.support:support-annotations:28.0.0")
+    compileOnly("androidx.annotation:annotation:1.0.2")
 
     testImplementation("junit:junit:4.12")
 }
