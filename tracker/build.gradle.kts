@@ -13,7 +13,7 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib-jdk7"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
     compileOnly("androidx.annotation:annotation:1.0.2")
 
     testImplementation("junit:junit:4.12")
@@ -34,6 +34,8 @@ tasks.withType<Test> {
 tasks.getByName("test").finalizedBy(tasks.getByName("jacocoTestReport"))
 
 tasks.getByName("check").finalizedBy(tasks.getByName("detekt"))
+
+tasks.getByName("check").dependsOn(rootProject.tasks.getByName("markdownlint"))
 
 tasks.withType<JacocoReport> {
     reports {
