@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("ExplicitGarbageCollectionCall")
+
 package com.appmattus.tracker
 
 import org.hamcrest.core.StringStartsWith

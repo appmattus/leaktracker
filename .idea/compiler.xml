@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="leaktracker.tracker.main" target="12" />
+      <module name="leaktracker.tracker.test" target="12" />
       <module name="tracker_main" target="1.8" />
       <module name="tracker_test" target="1.8" />
     </bytecodeTargetLevel>
