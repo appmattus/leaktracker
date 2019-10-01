@@ -32,8 +32,6 @@ tasks.withType<Test> {
 
 tasks.getByName("test").finalizedBy(tasks.getByName("jacocoTestReport"))
 
-tasks.getByName("check").finalizedBy(tasks.getByName("detekt"))
-
 tasks.getByName("check").dependsOn(rootProject.tasks.getByName("markdownlint"))
 
 tasks.withType<JacocoReport> {
