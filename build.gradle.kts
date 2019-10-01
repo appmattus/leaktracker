@@ -1,24 +1,19 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 buildscript {
-    extra["kotlin_version"] = "1.3.31"
-
     repositories {
         jcenter()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${extra["kotlin_version"]}")
-        classpath("org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2")
-        classpath("com.novoda:bintray-release:0.9")
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath("com.novoda:bintray-release:0.9.1")
     }
 }
 
 plugins {
-    id("com.github.ben-manes.versions") version "0.21.0"
-    id("com.appmattus.markdown") version "0.4.0"
+    id("org.jetbrains.kotlin.jvm") version "1.3.50" apply false
+    id("com.github.ben-manes.versions") version "0.25.0"
+    id("com.appmattus.markdown") version "0.5.0"
+    id("com.github.kt3k.coveralls") version "2.8.4" apply false
 }
 
 allprojects {
@@ -31,4 +26,20 @@ allprojects {
 
 task("clean", type = Delete::class) {
     delete(rootProject.buildDir)
+}
+
+tasks.withType(DependencyUpdatesTask::class.java).all {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                val rejected = listOf("alpha", "beta", "rc", "cr", "m", "preview")
+                        .map { qualifier -> Regex("(?i).*[.-]$qualifier[.\\d-]*") }
+                        .any { it.matches(candidate.version) }
+
+                if (rejected) {
+                    reject("Release candidate")
+                }
+            }
+        }
+    }
 }

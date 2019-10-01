@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Projects.leaktracker.iml" filepath="$PROJECT_DIR$/.idea/modules/Projects.leaktracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/leaktracker.iml" filepath="$PROJECT_DIR$/leaktracker.iml" group="leaktracker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/leaktracker.tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/leaktracker.tracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/leaktracker.tracker.main.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/leaktracker.tracker.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/leaktracker.tracker.test.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/leaktracker.tracker.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/tracker.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/tracker.iml" group="leaktracker/tracker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/tracker_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/tracker_main.iml" group="leaktracker/tracker" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tracker/tracker_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tracker/tracker_test.iml" group="leaktracker/tracker" />

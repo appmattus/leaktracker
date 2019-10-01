@@ -8,20 +8,19 @@ plugins {
 
     id("com.novoda.bintray-release")
 
-    id("io.gitlab.arturbosch.detekt") version "1.0.0-RC14"
+    id("io.gitlab.arturbosch.detekt") version "1.0.1"
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk7"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1")
-    compileOnly("androidx.annotation:annotation:1.0.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2")
+    compileOnly("androidx.annotation:annotation:1.1.0")
 
     testImplementation("junit:junit:4.12")
 }
 
 detekt {
     input = files("$projectDir")
-    filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
 }
 
 tasks.withType<Test> {
