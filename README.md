@@ -1,6 +1,6 @@
 # leaktracker
 
-![CI](https://github.com/appmattus/leaktracker/workflows/CI/badge.svg?branch=main)  
+![CI](https://github.com/appmattus/leaktracker/workflows/CI/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/appmattus/leaktracker/branch/main/graph/badge.svg)](https://codecov.io/gh/appmattus/leaktracker)
 
 A memory leak tracking library for Android and Java.
