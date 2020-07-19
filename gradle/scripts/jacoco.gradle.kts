@@ -14,31 +14,16 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+apply<JacocoPlugin>()
 
-plugins {
-    kotlin("jvm") version "1.3.72" apply false
-    id("com.appmattus.markdown") version "0.6.0"
-}
-
-subprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-    }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "1.8"
-            allWarningsAsErrors = true
-        }
+val jacocoTask = tasks.withType<JacocoReport> {
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
+        csv.isEnabled = false
     }
 }
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
+tasks.named("check") {
+    finalizedBy(jacocoTask)
 }
-
-apply(from = "$rootDir/gradle/scripts/detekt.gradle.kts")
-apply(from = "$rootDir/gradle/scripts/dependencyUpdates.gradle.kts")

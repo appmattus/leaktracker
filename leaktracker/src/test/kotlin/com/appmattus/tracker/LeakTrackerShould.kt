@@ -28,7 +28,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 class LeakTrackerShould {
-    @Suppress("MemberVisibilityCanPrivate")
+    @Suppress("MemberVisibilityCanPrivate", "DEPRECATION")
     @get:Rule
     var thrown: ExpectedException = ExpectedException.none()
 
