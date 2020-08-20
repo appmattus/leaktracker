@@ -18,7 +18,7 @@
 
 package com.appmattus.tracker
 
-import org.hamcrest.core.StringStartsWith
+import org.hamcrest.core.StringContains
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -57,8 +57,8 @@ class LeakTrackerShould {
     @Test
     fun `throw exception when unsubscribeOperation is null`() {
         // expect exception
-        thrown.expect(IllegalArgumentException::class.java)
-        thrown.expectMessage(StringStartsWith("Parameter specified as non-null is null"))
+        thrown.expect(NullPointerException::class.java)
+        thrown.expectMessage(StringContains("Parameter specified as non-null is null"))
 
         // when unsubscribeOperation is null
         tracker.subscribe(uninitialized())
