@@ -92,7 +92,6 @@ class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
                         operation()
                     }
                 } catch (ignored: InterruptedException) {
-
                 }
             }
         }
