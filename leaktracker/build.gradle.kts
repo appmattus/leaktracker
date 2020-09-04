@@ -16,9 +16,12 @@
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.dokka.gradle.DokkaTask
+import java.net.URL
 
 plugins {
     kotlin("jvm")
+    id("org.jetbrains.dokka") version "1.4.0"
 }
 
 apply(from = "$rootDir/gradle/scripts/jacoco.gradle.kts")
@@ -37,6 +40,22 @@ tasks.withType<Test> {
     testLogging {
         events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
         exceptionFormat = TestExceptionFormat.SHORT
+    }
+}
+
+tasks.withType<DokkaTask> {
+    outputDirectory.set(buildDir.resolve("reports/dokka"))
+
+    dokkaSourceSets {
+        configureEach {
+            skipDeprecated.set(true)
+
+            sourceLink {
+                localDirectory.set(rootDir)
+                remoteUrl.set(URL("https://github.com/appmattus/leaktracker/blob/main/"))
+                remoteLineSuffix.set("#L")
+            }
+        }
     }
 }
 
