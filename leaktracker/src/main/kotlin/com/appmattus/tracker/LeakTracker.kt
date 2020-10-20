@@ -29,7 +29,7 @@ import java.util.concurrent.Executors
 /**
  * Notifies you when the referent object is garbage collected
  */
-class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
+public class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
     private val trackers: MutableMap<UUID, TrackedReference> = Collections.synchronizedMap(mutableMapOf())
     private val referenceQueue: ReferenceQueue<Any> = ReferenceQueue()
 
@@ -45,7 +45,7 @@ class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
      * @param unsubscribeOperation  the operation to execute when unsubscribe() is called
      */
     @CheckResult
-    fun subscribe(unsubscribeOperation: () -> Unit): Unsubscriber {
+    public fun subscribe(unsubscribeOperation: () -> Unit): Unsubscriber {
         // generate exception and cleanup stack trace to remove this class
         val exception = IllegalStateException("Subscription has not been un-subscribed")
         exception.stackTrace = exception.stackTrace.drop(1).toTypedArray()

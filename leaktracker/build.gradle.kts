@@ -33,7 +33,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
     compileOnly("androidx.annotation:annotation:1.1.0")
 
-    testImplementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13.1")
+}
+
+kotlin {
+    explicitApi()
 }
 
 tasks.withType<Test> {

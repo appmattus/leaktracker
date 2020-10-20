@@ -19,9 +19,9 @@ package com.appmattus.tracker
 /**
  * Unsubscriber interface for removing a subscription
  */
-interface Unsubscriber {
+public interface Unsubscriber {
     /**
      * Unsubscribe from the subscription
      */
-    fun unsubscribe()
+    public fun unsubscribe()
 }
