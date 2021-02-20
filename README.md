@@ -41,11 +41,11 @@ fun addObserver(observer: Observer): Unsubscriber {
 LeakTracker will automatically call your exception handler when an
 `Unsubscriber` is garbage collected without being called.
 
-## Download [![Download](https://api.bintray.com/packages/appmattus/maven/leaktracker/images/download.svg)](https://bintray.com/appmattus/maven/leaktracker/_latestVersion)
+## Download [![Maven Central](https://img.shields.io/maven-central/v/com.appmattus.leaktracker/leaktracker)](https://search.maven.org/search?q=g:com.appmattus.leaktracker)
 
 ```groovy
 dependencies {
-    compile 'com.appmattus:leaktracker:<latest-version>'
+    compile 'com.appmattus.leaktracker:leaktracker:<latest-version>'
 }
 ```
 
@@ -58,7 +58,7 @@ language translations, unit/integration tests are welcomed.
 
 ## License [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-Copyright 2017 Appmattus Limited
+Copyright 2021 Appmattus Limited
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
 this file except in compliance with the License. You may obtain a copy of the

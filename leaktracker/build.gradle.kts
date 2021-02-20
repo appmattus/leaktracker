@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Appmattus Limited
+ * Copyright 2021 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +21,18 @@ import java.net.URL
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.dokka") version "1.4.10"
+    id("com.vanniktech.maven.publish")
+    id("org.jetbrains.dokka")
 }
 
 apply(from = "$rootDir/gradle/scripts/jacoco.gradle.kts")
-apply(from = "$rootDir/gradle/scripts/bintray.gradle.kts")
-apply(from = "$rootDir/gradle/scripts/dokka-javadoc.gradle.kts")
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
-    compileOnly("androidx.annotation:annotation:1.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
+    compileOnly("androidx.annotation:annotation:${Versions.AndroidX.annotation}")
 
-    testImplementation("junit:junit:4.13.1")
+    testImplementation("junit:junit:${Versions.junit4}")
 }
 
 kotlin {
@@ -44,22 +43,6 @@ tasks.withType<Test> {
     testLogging {
         events(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
         exceptionFormat = TestExceptionFormat.SHORT
-    }
-}
-
-tasks.withType<DokkaTask> {
-    outputDirectory.set(buildDir.resolve("reports/dokka"))
-
-    dokkaSourceSets {
-        configureEach {
-            skipDeprecated.set(true)
-
-            sourceLink {
-                localDirectory.set(rootDir)
-                remoteUrl.set(URL("https://github.com/appmattus/leaktracker/blob/main/"))
-                remoteLineSuffix.set("#L")
-            }
-        }
     }
 }
 
