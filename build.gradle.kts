@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Appmattus Limited
+ * Copyright 2021 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
+import org.jetbrains.dokka.gradle.DokkaPlugin
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.10" apply false
-    id("com.appmattus.markdown") version "0.6.0"
+    kotlin("jvm") version Versions.kotlin apply false
+    id("com.appmattus.markdown") version Versions.markdownlintGradlePlugin
+    id("com.vanniktech.maven.publish") version Versions.gradleMavenPublishPlugin apply false
+    id("org.jetbrains.dokka") version Versions.dokkaPlugin
 }
 
 subprojects {
@@ -30,8 +34,31 @@ subprojects {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = JavaVersion.VERSION_1_8.toString()
             allWarningsAsErrors = true
+        }
+    }
+
+    version = (System.getenv("GITHUB_REF") ?: System.getProperty("GITHUB_REF"))
+        ?.replaceFirst("refs/tags/", "") ?: "unspecified"
+
+    plugins.withType<DokkaPlugin> {
+        tasks.withType<DokkaTask>().configureEach {
+            dokkaSourceSets {
+                configureEach {
+                    skipDeprecated.set(true)
+
+                    if (name.startsWith("ios")) {
+                        displayName.set("ios")
+                    }
+
+                    sourceLink {
+                        localDirectory.set(rootDir)
+                        remoteUrl.set(java.net.URL("https://github.com/appmattus/leaktracker/blob/main"))
+                        remoteLineSuffix.set("#L")
+                    }
+                }
+            }
         }
     }
 }
