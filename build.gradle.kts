@@ -17,6 +17,8 @@
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost.DEFAULT
 
 plugins {
     kotlin("jvm") version Versions.kotlin apply false
@@ -59,6 +61,12 @@ subprojects {
                     }
                 }
             }
+        }
+    }
+
+    plugins.withId("com.vanniktech.maven.publish.base") {
+        configure<MavenPublishBaseExtension> {
+            publishToMavenCentral(DEFAULT, System.getenv("SONATYPE_REPOSITORY_ID"))
         }
     }
 }
