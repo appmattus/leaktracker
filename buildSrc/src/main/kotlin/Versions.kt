@@ -16,15 +16,15 @@
 
 object Versions {
 
-    const val kotlin = "1.4.30"
+    const val kotlin = "1.5.31"
 
-    const val detektGradlePlugin = "1.16.0-RC1"
-    const val dokkaPlugin = "1.4.20"
-    const val gradleMavenPublishPlugin = "0.14.2"
+    const val detektGradlePlugin = "1.18.1"
+    const val dokkaPlugin = "1.5.31"
+    const val gradleMavenPublishPlugin = "0.18.0"
     const val gradleVersionsPlugin = "0.36.0"
     const val markdownlintGradlePlugin = "0.6.0"
 
-    const val coroutines = "1.4.2"
+    const val coroutines = "1.5.2"
 
     const val junit4 = "4.13.2"
 

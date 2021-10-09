@@ -16,8 +16,7 @@
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.jetbrains.dokka.gradle.DokkaTask
-import java.net.URL
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
     kotlin("jvm")
@@ -37,6 +36,12 @@ dependencies {
 
 kotlin {
     explicitApi()
+}
+
+tasks.withType(KotlinCompile::class.java).all {
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
+    }
 }
 
 tasks.withType<Test> {

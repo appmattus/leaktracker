@@ -17,6 +17,7 @@
 package com.appmattus.tracker
 
 import androidx.annotation.CheckResult
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -76,6 +77,7 @@ public class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
     private inner class TrackedReference(val uuid: UUID, referent: Unsubscriber, val operation: () -> Unit) :
         WeakReference<Any>(referent, referenceQueue)
 
+    @OptIn(DelicateCoroutinesApi::class)
     @Suppress("TooGenericExceptionCaught", "EmptyCatchBlock")
     private fun startReaperThread() {
         // This thread must be a daemon thread otherwise it will stop the app finishing
@@ -83,7 +85,7 @@ public class LeakTracker(private val exceptionHandler: (Exception) -> Unit) {
             while (true) {
                 try {
                     // Once a referent is to be GC'd then the Tracker will be available in the referenceQueue
-                    @Suppress("UnsafeCast")
+                    @Suppress("UnsafeCast", "BlockingMethodInNonBlockingContext")
                     (referenceQueue.remove() as TrackedReference).apply {
                         // Clear the tracker
                         trackers.remove(uuid)
