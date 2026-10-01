@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.markdownlint)
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.dokka)
@@ -93,6 +93,7 @@ tasks.named<Detekt>("detekt").configure {
     include("**/*.kts")
     exclude("**/resources/**")
     exclude("**/build/**")
+    exclude("**/*Test/**")
 
     parallel = true
 

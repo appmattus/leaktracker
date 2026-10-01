@@ -16,25 +16,77 @@
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.dokka)
 }
 
-apply(from = "$rootDir/gradle/scripts/jacoco.gradle.kts")
-
-dependencies {
-    implementation(kotlin("stdlib"))
-    implementation(libs.kotlinx.coroutines.core)
-    compileOnly(libs.androidx.annotation)
-
-    testImplementation(libs.junit4)
-}
+apply<JacocoPlugin>()
 
 kotlin {
     explicitApi()
+
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
+    jvm()
+
+    js {
+        browser()
+        nodejs()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        nodejs()
+    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmWasi {
+        nodejs()
+    }
+
+    // Tier 1
+    // Apple macOS hosts only:
+    macosArm64() // Running tests
+    iosSimulatorArm64() // Running tests
+    iosArm64()
+
+    // Tier 2
+    linuxX64() // Running tests
+    linuxArm64()
+    // Apple macOS hosts only:
+    watchosSimulatorArm64() // Running tests
+    watchosArm32()
+    watchosArm64()
+    tvosSimulatorArm64() // Running tests
+    tvosArm64()
+
+    // Tier 3
+    androidNativeArm32()
+    androidNativeArm64()
+    androidNativeX86()
+    androidNativeX64()
+    mingwX64() // Running tests
+    // Apple macOS hosts only:
+    watchosDeviceArm64()
+    iosX64() // Running tests
+
+    sourceSets {
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
+        jvmMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+            compileOnly(libs.androidx.annotation)
+        }
+        jvmTest.dependencies {
+            implementation(libs.junit4)
+        }
+    }
 }
 
 tasks.withType<Test> {
@@ -44,8 +96,24 @@ tasks.withType<Test> {
     }
 }
 
-tasks.named("test") {
-    finalizedBy(tasks.named("jacocoTestReport"))
+val jacocoTestReport = tasks.register<JacocoReport>("jacocoTestReport") {
+    val jvmTest = tasks.named<Test>("jvmTest")
+    dependsOn(jvmTest)
+    executionData(jvmTest.get())
+
+    val jvmCompilation = kotlin.jvm().compilations.getByName("main")
+    classDirectories.setFrom(jvmCompilation.output.classesDirs)
+    sourceDirectories.setFrom(jvmCompilation.allKotlinSourceSets.flatMap { it.kotlin.srcDirs })
+
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+tasks.named("jvmTest") {
+    finalizedBy(jacocoTestReport)
 }
 
 tasks.named("check") {
