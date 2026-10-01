@@ -16,7 +16,6 @@
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
     kotlin("jvm")
@@ -27,7 +26,7 @@ plugins {
 apply(from = "$rootDir/gradle/scripts/jacoco.gradle.kts")
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
     compileOnly("androidx.annotation:annotation:${Versions.AndroidX.annotation}")
 
@@ -36,12 +35,6 @@ dependencies {
 
 kotlin {
     explicitApi()
-}
-
-tasks.withType(KotlinCompile::class.java).all {
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
-    }
 }
 
 tasks.withType<Test> {

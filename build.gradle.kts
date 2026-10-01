@@ -16,9 +16,9 @@
 
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost.DEFAULT
 
 plugins {
     kotlin("jvm") version Versions.kotlin apply false
@@ -30,15 +30,18 @@ plugins {
 subprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
-            allWarningsAsErrors = true
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+            allWarningsAsErrors.set(true)
         }
+    }
+
+    tasks.withType<JavaCompile>().configureEach {
+        options.release.set(8)
     }
 
     version = (System.getenv("GITHUB_REF") ?: System.getProperty("GITHUB_REF"))
@@ -66,13 +69,13 @@ subprojects {
 
     plugins.withId("com.vanniktech.maven.publish.base") {
         configure<MavenPublishBaseExtension> {
-            publishToMavenCentral(DEFAULT, System.getenv("SONATYPE_REPOSITORY_ID"))
+            publishToMavenCentral()
         }
     }
 }
 
 tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
+    delete(rootProject.layout.buildDirectory)
 }
 
 apply(from = "$rootDir/gradle/scripts/detekt.gradle.kts")
