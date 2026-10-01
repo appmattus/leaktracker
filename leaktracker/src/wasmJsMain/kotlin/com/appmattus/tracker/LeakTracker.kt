@@ -1,5 +1,5 @@
-/*
- * Copyright 2020 Appmattus Limited
+/**
+ * Copyright 2017 Appmattus Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-apply<JacocoPlugin>()
+package com.appmattus.tracker
 
-val jacocoTask = tasks.withType<JacocoReport> {
-    reports {
-        html.required.set(true)
-        xml.required.set(true)
-        csv.required.set(false)
-    }
+@Suppress("UNUSED_PARAMETER")
+public actual class LeakTracker actual constructor(exceptionHandler: (Exception) -> Unit) {
+    public actual fun subscribe(unsubscribeOperation: () -> Unit): Unsubscriber = NoOpUnsubscriber(unsubscribeOperation)
 }
 
-tasks.named("check") {
-    finalizedBy(jacocoTask)
+private class NoOpUnsubscriber(private val unsubscribeOperation: () -> Unit) : Unsubscriber {
+    override fun unsubscribe() {
+        unsubscribeOperation()
+    }
 }
