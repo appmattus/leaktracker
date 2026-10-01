@@ -18,19 +18,19 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-    kotlin("jvm")
-    id("com.vanniktech.maven.publish")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.dokka)
 }
 
 apply(from = "$rootDir/gradle/scripts/jacoco.gradle.kts")
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}")
-    compileOnly("androidx.annotation:annotation:${Versions.AndroidX.annotation}")
+    implementation(libs.kotlinx.coroutines.core)
+    compileOnly(libs.androidx.annotation)
 
-    testImplementation("junit:junit:${Versions.junit4}")
+    testImplementation(libs.junit4)
 }
 
 kotlin {

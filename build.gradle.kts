@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.dokka.gradle.DokkaPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.vanniktech.maven.publish.MavenPublishBaseExtension
 
 plugins {
-    kotlin("jvm") version Versions.kotlin apply false
-    id("com.appmattus.markdown") version Versions.markdownlintGradlePlugin
-    id("com.vanniktech.maven.publish") version Versions.gradleMavenPublishPlugin apply false
-    id("org.jetbrains.dokka") version Versions.dokkaPlugin
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.markdownlint)
+    alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.versions)
 }
 
 subprojects {
@@ -78,5 +82,53 @@ tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
 
-apply(from = "$rootDir/gradle/scripts/detekt.gradle.kts")
-apply(from = "$rootDir/gradle/scripts/dependencyUpdates.gradle.kts")
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    detektPlugins(libs.detekt.formatting)
+}
+
+tasks.named<Detekt>("detekt").configure {
+    setSource(files(rootProject.projectDir))
+
+    include("**/*.kt")
+    include("**/*.kts")
+    exclude("**/resources/**")
+    exclude("**/build/**")
+
+    parallel = true
+
+    autoCorrect = true
+    buildUponDefaultConfig = true
+    config.setFrom(files("${rootProject.projectDir}/gradle/scripts/detekt.yml"))
+
+    reports {
+        xml {
+            required.set(true)
+            outputLocation.set(file("build/reports/detekt/detekt.xml"))
+        }
+        html {
+            required.set(true)
+        }
+    }
+}
+
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    return !stableKeyword && !regex.matches(version)
+}
+
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                if (isNonStable(candidate.version)) {
+                    reject("Release candidate")
+                }
+            }
+        }
+    }
+}
